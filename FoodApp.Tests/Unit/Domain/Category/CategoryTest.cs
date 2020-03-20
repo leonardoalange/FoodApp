@@ -34,7 +34,7 @@ namespace FoodApp.Tests.Unit.Domain.Category
             category.Id.Should().Be(categoryId);
         }
 
-        public CategoryEntity CreateCategory(Guid id)
+        private CategoryEntity CreateCategory(Guid id)
         {
             return new CategoryBuilder()
                 .BuildCategoryName("Asian")

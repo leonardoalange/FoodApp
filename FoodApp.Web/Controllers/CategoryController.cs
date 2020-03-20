@@ -25,5 +25,13 @@ namespace FoodApp.Web.Controllers
           await  _categoryService.Create(request);
             return NoContent();
         }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        {
+            await _categoryService.Delete(id);
+            return NoContent();
+        }
     }
 }

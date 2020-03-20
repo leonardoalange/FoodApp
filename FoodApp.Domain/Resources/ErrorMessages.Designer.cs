@@ -29,7 +29,7 @@ namespace FoodApp.Domain.Resources {
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ErrorMessages() {
+        public ErrorMessages() {
         }
         
         /// <summary>
@@ -59,7 +59,7 @@ namespace FoodApp.Domain.Resources {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Informe a cor da categoria.
         /// </summary>
@@ -68,7 +68,7 @@ namespace FoodApp.Domain.Resources {
                 return ResourceManager.GetString("ErrorColor", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Informe a descrição da categoria.
         /// </summary>
@@ -77,7 +77,7 @@ namespace FoodApp.Domain.Resources {
                 return ResourceManager.GetString("ErrorDescription", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Informe o nome da categoria.
         /// </summary>
