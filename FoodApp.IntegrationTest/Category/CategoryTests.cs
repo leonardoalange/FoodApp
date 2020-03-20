@@ -13,7 +13,7 @@ namespace FoodApp.IntegrationTest.Category
     public class CategoryTests : IntegrationTestBase
     {
         [Fact]
-        public async Task ShouldFailWhenNameInvalid()
+        public async Task ShouldFailCreateWhenNameInvalid()
         {
             var category = new CategoryRequestModel()
             {
@@ -26,7 +26,7 @@ namespace FoodApp.IntegrationTest.Category
         }
 
         [Fact]
-        public async Task ShouldFailWhenColorInvalid()
+        public async Task ShouldFailCreateWhenColorInvalid()
         {
             var category = new CategoryRequestModel()
             {
@@ -39,7 +39,7 @@ namespace FoodApp.IntegrationTest.Category
         }
 
         [Fact]
-        public async Task ShouldFailWhenDescriptionInvalid()
+        public async Task ShouldFailCreateWhenDescriptionInvalid()
         {
             var category = new CategoryRequestModel()
             {
@@ -58,6 +58,19 @@ namespace FoodApp.IntegrationTest.Category
             Assert.True(validationErrorsMessages[0]._Key == "CategoryEntityNotFound");
         }
 
+        [Fact]
+        public async Task ShouldFailUpdateWhen()
+        {
+            var model = new CategoryRequestModel()
+            {
+                Name = "Salad",
+                Color = "red",
+                Description = "Spice food"
+            };
+            var validationErrorsMessages = await GetErrorsOnUpdate(model);
+            Assert.True(validationErrorsMessages[0]._Key == "CategoryEntityNotFound");
+        }
+
         public async Task<List<ValidationErrorResponse>> GetErrorsOnCreate(CategoryRequestModel categoryRequestModel)
         {
             var serializedCategory = JsonConvert.SerializeObject(categoryRequestModel);
@@ -65,10 +78,18 @@ namespace FoodApp.IntegrationTest.Category
             return await response.Content.ReadAsAsync<List<ValidationErrorResponse>>();
         }
 
-        private async Task<List<ValidationErrorResponse>> GetErrorsOnDelete()
+        public async Task<List<ValidationErrorResponse>> GetErrorsOnDelete()
         {
             var categoryId = Guid.NewGuid();
             var response = await _client.DeleteAsync($"/api/category/{categoryId}");
+            return await response.Content.ReadAsAsync<List<ValidationErrorResponse>>();
+        }
+
+        public async Task<List<ValidationErrorResponse>> GetErrorsOnUpdate(CategoryRequestModel categoryRequestModel)
+        {
+            var categoryId = Guid.NewGuid();
+            var serializedCategory = JsonConvert.SerializeObject(categoryRequestModel);
+            var response = await _client.PutAsync($"/api/category/{categoryId}", new StringContent(serializedCategory, Encoding.UTF8, "application/json"));
             return await response.Content.ReadAsAsync<List<ValidationErrorResponse>>();
         }
     }

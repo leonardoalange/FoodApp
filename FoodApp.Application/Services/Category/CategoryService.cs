@@ -53,9 +53,18 @@ namespace FoddApp.Application.Services.Category
             throw new NotImplementedException();
         }
 
-        public Task Update(Guid id, CategoryRequestModel request)
+        public async Task Update(Guid id, CategoryRequestModel request)
         {
-            throw new NotImplementedException();
+            var category = await _categoryRepository.GetById(id);
+            if (VerifyEntityExistence<CategoryEntity>(category, _notificationService))
+                return;
+            category.Update(request.Name, request.Color, request.Description);
+            if (category.Invalid)
+            {
+                _notificationService.AddEntityNotification(category.ValidationResult);
+                return;
+            }
+            await _categoryRepository.Update(id, category);
         }
     }
 }

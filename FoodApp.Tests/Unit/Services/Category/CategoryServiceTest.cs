@@ -70,6 +70,31 @@ namespace FoodApp.UnityTest.Unit.Application.Services.Category
 
         }
 
+        [Fact]
+        public async Task ShouldUpdateCategory()
+        {
+            var categoryId = Guid.NewGuid();
+            var model = new CategoryRequestModel()
+            {
+                Name = "Salad",
+                Color = "green",
+                Description = "healthy food"
+            };
+
+            var category = CreateCategory(categoryId);
+
+            _categoriRepository
+                .GetById(categoryId)
+                .Returns(category);
+
+            await _categoryService
+                .Update(categoryId, model);
+
+            await _categoriRepository.Received(1).Update(categoryId, Arg.Is<CategoryEntity>(category => category.Name == "Salad"
+                                                         && category.Color == "green"
+                                                         && category.Description == "healthy food"));
+        }
+
         private CategoryEntity CreateCategory(Guid id)
         {
             return new CategoryBuilder()
